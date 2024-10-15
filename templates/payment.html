@@ -86,15 +86,15 @@
     <div class="container">
         <input id="myInput" style="visibility: hidden" value="{{email}}">
 
-<!--
-        <!-- First card --
+
+        <!-- First card -->
         <div class="card">
             <h2>Daily Subscription</h2>
-            <h2>₦699</h2>
+            <h2>₦100</h2>
             <small>1 time payment</small>
             <button type="button" onclick="payWithPaystackDaily()">Pay</button>
         </div>
--->
+
         
         <!-- Second card -->
         <div class="card">
@@ -115,7 +115,7 @@
     <script type="text/javascript">
         // Step 1: Select the input element
 
-      /*function payWithPaystackDaily(){
+      function payWithPaystackDaily(){
         var inputElement = document.getElementById("myInput"); // Select the input element by ID
        var inputValue = inputElement.value; // Get the value of the input element
           
@@ -123,7 +123,7 @@
           key: 'pk_test_c4706f1b2ad704752356bc09a889ec5c4b9d93c5', // Replace with your Paystack public key
           email: inputValue,
           first_name: 'User',
-          amount: 69900, // Amount in kobo (500 naira)
+          amount: 10000, // Amount in kobo (500 naira)
           plan: "PLN_w4fs0biifu28ri0",
           ref: ''+Math.floor((Math.random() * 1000000000) + 1), // Transaction reference
 
@@ -139,7 +139,7 @@
         });
         handler.openIframe();
       }
-*/
+
 
 
 
