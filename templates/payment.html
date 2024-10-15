@@ -89,7 +89,7 @@
 
         <!-- First card -->
         <div class="card">
-            <h2>Daily Subscription</h2>
+            <h2>weekly Subscription(Test)</h2>
             <h2>₦100</h2>
             <small>1 time payment</small>
             <button type="button" onclick="payWithPaystackDaily()">Pay</button>
@@ -124,14 +124,14 @@
           email: inputValue,
           first_name: 'User',
           amount: 10000, // Amount in kobo (500 naira)
-          plan: "PLN_w4fs0biifu28ri0",
+          plan: "PLN_6xef2lwb2vvazrr",
           ref: ''+Math.floor((Math.random() * 1000000000) + 1), // Transaction reference
 
           callback: function(response){
             // Successful payment
             console.log(response);
             // Automatically redirect to the '/show' Flask route after successful payment
-            window.location.href = "/chatbot";
+            window.location.href = "/upload-page";
           },
           onClose: function(){
             alert('Transaction was not completed.');
