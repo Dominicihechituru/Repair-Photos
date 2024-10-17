@@ -52,11 +52,11 @@ db = firebase.database()
 
 
 @app.route("/")
-def login():
-    return render_template("login.html")
+def front_welcome():
+    return render_template("front_welcome.html")
 
 
-@app.route("/")
+@app.route("/signin")
 def login():
     return render_template("login.html")
 
