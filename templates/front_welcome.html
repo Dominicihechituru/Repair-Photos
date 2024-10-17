@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Input Buttons</title>
+    <title>Centered Links as Buttons</title>
     <style>
         body {
             display: flex;
@@ -13,37 +13,43 @@
             margin: 0;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
+            padding: 0 40px; /* Increased padding to create more space on the sides */
         }
 
-        .div-container {
+        .form-container {
             margin-top: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
+            width: 100%;
+            max-width: 350px; /* Reduced max-width to ensure buttons aren't too wide */
         }
 
         h1 {
             font-size: 24px;
             color: #333;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         .btn {
+            display: block;
             padding: 15px 30px;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            max-width: 300px;
             text-align: center;
+            text-decoration: none;
+            color: white;
             transition: background-color 0.3s ease;
+            box-sizing: border-box; /* Ensure padding doesn't cause overflow */
         }
 
         .btn-email {
             background-color: #007bff;
-            color: white;
         }
 
         .btn-email:hover {
@@ -52,7 +58,6 @@
 
         .btn-google {
             background-color: #db4437;
-            color: white;
         }
 
         .btn-google:hover {
@@ -61,15 +66,10 @@
     </style>
 </head>
 <body>
-    <div  class="div-container">
+    <div class="form-container">
         <h1>Welcome to refinePhotos</h1>
-      <form action="/signin" method="post">
-        <input type="submit" class="btn btn-email" value="Signin with email">
-      </form>
-        <form>
-          <input type="submit" class="btn btn-google" value="Sign in with Google">
-        </form>
-        
+        <a href="{{ url_for('signin') }}" class="btn btn-email">Signin with email</a>
+        <a href="https://your-backend-url.com/signin-google" class="btn btn-google">Sign in with Google</a>
     </div>
 </body>
 </html>
