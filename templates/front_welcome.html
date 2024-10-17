@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Links and Buttons</title>
+    <title>Refine Photos</title>
     <style>
         body {
             display: flex;
@@ -74,7 +74,7 @@
 <body>
     <div class="form-container">
         <h1>Welcome to refinePhotos</h1>
-        <a href="https://your-backend-url.com/signin-email" class="btn btn-email">Signin with email</a>
+        <a href="{{ url_for('login') }}" class="btn btn-email">Signin with email</a>
         <button class="btn btn-google" onclick="signInWithGoogle()">Sign in with Google</button>
     </div>
 </body>
