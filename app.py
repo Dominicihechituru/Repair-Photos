@@ -58,8 +58,13 @@ def front_welcome():
 
 @app.route("/googlesignin")
 def google_signin():
-    return render_template("front_welcome.html")
+    user_data = request.json
+    # You can process the user data here
+    print("Received user data:", user_data)
+    #print("email is:"+user_data['email'])
 
+    # Return a response
+    return jsonify({"message": "User data received successfully"}), 200
 
 @app.route("/signin")
 def login():
