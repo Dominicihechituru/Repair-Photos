@@ -56,6 +56,11 @@ def front_welcome():
     return render_template("front_welcome.html")
 
 
+@app.route("/googlesignin")
+def google_signin():
+    return render_template("front_welcome.html")
+
+
 @app.route("/signin")
 def login():
     return render_template("login.html")
