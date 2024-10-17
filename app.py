@@ -57,7 +57,7 @@ def front_welcome():
 
 
 @app.route("/googlesignin")
-def google_signin():
+def googlesignin():
     user_data = request.json
     # You can process the user data here
     print("Received user data:", user_data)
