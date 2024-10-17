@@ -51,7 +51,9 @@ auth = firebase.auth()
 db = firebase.database()
 
 
-
+@app.route("/")
+def login():
+    return render_template("login.html")
 
 
 @app.route("/")
