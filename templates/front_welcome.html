@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Input Buttons</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .div-container {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-email {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-email:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-google {
+            background-color: #db4437;
+            color: white;
+        }
+
+        .btn-google:hover {
+            background-color: #b03a2e;
+        }
+    </style>
+</head>
+<body>
+    <div  class="div-container">
+        <h1>Welcome to refinePhotos</h1>
+      <form action="/signin" method="post">
+        <input type="submit" class="btn btn-email" value="Signin with email">
+      </form>
+        <form>
+          <input type="submit" class="btn btn-google" value="Sign in with Google">
+        </form>
+        
+    </div>
+</body>
+</html>
