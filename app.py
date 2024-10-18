@@ -67,7 +67,7 @@ def googlesignin():
 
             # Process user data, assuming it contains 'email' and 'name'
             email = user_data.get("email")
-            name = user_data.get("name")
+            name = user_data.get("displayName")
             
             if not email or not name:
                 print("Incomplete user data")
