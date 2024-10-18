@@ -62,6 +62,7 @@ def googlesignin():
         try:
             user_data = request.json
             if not user_data:
+                print("No user data provided")
                 return jsonify({"message": "No user data provided"}), 400
 
             # Process user data, assuming it contains 'email' and 'name'
@@ -69,15 +70,17 @@ def googlesignin():
             name = user_data.get("name")
             
             if not email or not name:
+                print("Incomplete user data")
                 return jsonify({"message": "Incomplete user data"}), 400
 
             # Set session variables
             session["is_logged_in"] = True
             session["email"] = email
             session["name"] = name
-            
-            # Print for debugging
-            print("Received user data:", user_data)
+
+            # Debugging prints to confirm session data is set
+            print(f"User {email} signed in successfully")
+            print(f"Session data: {session}")
 
             # Redirect to welcome page
             #return redirect(url_for("welcome"))
@@ -88,9 +91,7 @@ def googlesignin():
 
     # For GET requests, just return a success message
     #return jsonify({"message": "Google Sign-In route"}), 200
-    
     return redirect(url_for("welcome"))
-
 
 @app.route("/signin")
 def login():
