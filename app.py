@@ -63,17 +63,15 @@ def googlesignin():
             user_data = request.json
             # You can process the user data here
             print("Received user data:", user_data)
-            #print("email is:"+user_data['email'])
+            # print("email is:"+user_data['email'])
 
-            # Return a response
-            #return jsonify({"message": "User data received successfully"}), 200
+            # Set session and redirect
             session["is_logged_in"] = True
-            redirect(url_for("welcome"))
+            return redirect(url_for("welcome"))
         except Exception as e:
             print(e)
-    
-     return jsonify({"message": "User data received successfully"}), 200
-        
+
+    return jsonify({"message": "User data received successfully"}), 200
 
     
     
