@@ -83,13 +83,13 @@ def googlesignin():
             users = db.child("users").order_by_child("email").equal_to(email).get().val()
             if not users:
                 # Add new user data to the database if email is not found
-                user_id = user_data.get("uid") # Generate a unique key for the new user
                 user_data = {
                     "name": name,
                     "email": email,
                     "last_logged_in": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
                 }
-                db.child("users").child(user_id).set(user_data)
+                # Push the new user to the database
+                db.child("users").push(user_data)
                 print(f"New user added: {email}")
 
             # Redirect to the welcome page
