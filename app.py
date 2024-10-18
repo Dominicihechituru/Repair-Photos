@@ -79,7 +79,20 @@ def googlesignin():
             # Print for debugging
             print("Received user data:", user_data)
 
-            # Redirect to welcome page
+            # Check if the email already exists in the database
+            users = db.child("users").order_by_child("email").equal_to(email).get().val()
+            if not users:
+                # Add new user data to the database if email is not found
+                user_id = db.generate_key()  # Generate a unique key for the new user
+                user_data = {
+                    "name": name,
+                    "email": email,
+                    "last_logged_in": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+                }
+                db.child("users").child(user_id).set(user_data)
+                print(f"New user added: {email}")
+
+            # Redirect to the welcome page
             #return redirect(url_for("welcome"))
 
         except Exception as e:
