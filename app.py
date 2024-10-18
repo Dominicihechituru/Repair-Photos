@@ -66,7 +66,7 @@ def googlesignin():
 
             # Process user data, assuming it contains 'email' and 'name'
             email = user_data.get("email")
-            name = user_data.get("displayName")
+            name = user_data.get("name")
             
             if not email or not name:
                 return jsonify({"message": "Incomplete user data"}), 400
@@ -79,20 +79,7 @@ def googlesignin():
             # Print for debugging
             print("Received user data:", user_data)
 
-            # Check if the email already exists in the database
-            users = db.child("users").order_by_child("email").equal_to(email).get().val()
-            if not users:
-                # Add new user data to the database if email is not found
-                user_data = {
-                    "name": name,
-                    "email": email,
-                    "last_logged_in": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-                }
-                # Push the new user to the database
-                db.child("users").push(user_data)
-                print(f"New user added: {email}")
-
-            # Redirect to the welcome page
+            # Redirect to welcome page
             #return redirect(url_for("welcome"))
 
         except Exception as e:
@@ -101,6 +88,7 @@ def googlesignin():
 
     # For GET requests, just return a success message
     #return jsonify({"message": "Google Sign-In route"}), 200
+    
     return redirect(url_for("welcome"))
 
 
