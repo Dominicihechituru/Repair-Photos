@@ -68,6 +68,7 @@ def googlesignin():
             # Process user data, assuming it contains 'email' and 'name'
             email = user_data.get("email")
             name = user_data.get("displayName")
+            uid = user_data.get("uid")
             
             if not email or not name:
                 print("Incomplete user data")
@@ -77,10 +78,14 @@ def googlesignin():
             session["is_logged_in"] = True
             session["email"] = email
             session["name"] = name
+            session["uid"] = uid
 
             # Debugging prints to confirm session data is set
             print(f"User {email} signed in successfully")
             print(f"Session data: {session}")
+            if not db.child("users").child(session["uid"]).get().val():
+                data = {"name": name, "email": email, "prompt_count_db": 0, "last_logged_in": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}
+                db.child("users").child(session["uid"]).set(data)
 
             # Redirect to welcome page
             #return redirect(url_for("welcome"))
