@@ -71,7 +71,8 @@ def googlesignin():
             redirect(url_for("welcome"))
         except Exception as e:
             print(e)
-            
+    
+     return jsonify({"message": "User data received successfully"}), 200
         
 
     
