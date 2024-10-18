@@ -61,19 +61,33 @@ def googlesignin():
     if request.method == "POST":
         try:
             user_data = request.json
-            # You can process the user data here
-            print("Received user data:", user_data)
-            # print("email is:"+user_data['email'])
+            if not user_data:
+                return jsonify({"message": "No user data provided"}), 400
 
-            # Set session and redirect
+            # Process user data, assuming it contains 'email' and 'name'
+            email = user_data.get("email")
+            name = user_data.get("displayName")
+            
+            if not email or not name:
+                return jsonify({"message": "Incomplete user data"}), 400
+
+            # Set session variables
             session["is_logged_in"] = True
+            session["email"] = email
+            session["name"] = name
+            
+            # Print for debugging
+            print("Received user data:", user_data)
+
+            # Redirect to welcome page
             return redirect(url_for("welcome"))
+
         except Exception as e:
-            print(e)
+            print(f"Error during Google sign-in: {e}")
+            return jsonify({"message": "An error occurred during sign-in"}), 500
 
-    return jsonify({"message": "User data received successfully"}), 200
-
-    
+    # For GET requests, just return a success message
+    return jsonify({"message": "Google Sign-In route"}), 200
     
 
 @app.route("/signin")
