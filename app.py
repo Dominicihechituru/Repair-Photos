@@ -58,15 +58,24 @@ def front_welcome():
 
 @app.route("/googlesignin", methods=['POST', 'GET'])
 def googlesignin():
-    user_data = request.json
-    # You can process the user data here
-    print("Received user data:", user_data)
-    #print("email is:"+user_data['email'])
+    if request.method == "POST":
+        try:
+            user_data = request.json
+            # You can process the user data here
+            print("Received user data:", user_data)
+            #print("email is:"+user_data['email'])
 
-    # Return a response
-    #return jsonify({"message": "User data received successfully"}), 200
-    session["is_logged_in"] = True
-    redirect(url_for("welcome"))
+            # Return a response
+            #return jsonify({"message": "User data received successfully"}), 200
+            session["is_logged_in"] = True
+            redirect(url_for("welcome"))
+        except Exception as e:
+            print(e)
+            
+        
+
+    
+    
 
 @app.route("/signin")
 def login():
