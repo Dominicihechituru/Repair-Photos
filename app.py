@@ -80,15 +80,16 @@ def googlesignin():
             print("Received user data:", user_data)
 
             # Redirect to welcome page
-            return redirect(url_for("welcome"))
+            #return redirect(url_for("welcome"))
 
         except Exception as e:
             print(f"Error during Google sign-in: {e}")
             return jsonify({"message": "An error occurred during sign-in"}), 500
 
     # For GET requests, just return a success message
-    return jsonify({"message": "Google Sign-In route"}), 200
-    
+    #return jsonify({"message": "Google Sign-In route"}), 200
+    return redirect(url_for("welcome"))
+
 
 @app.route("/signin")
 def login():
