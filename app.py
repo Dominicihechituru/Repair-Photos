@@ -64,7 +64,9 @@ def googlesignin():
     #print("email is:"+user_data['email'])
 
     # Return a response
-    return jsonify({"message": "User data received successfully"}), 200
+    #return jsonify({"message": "User data received successfully"}), 200
+    session["is_logged_in"] = True
+    redirect(url_for("welcome"))
 
 @app.route("/signin")
 def login():
