@@ -111,7 +111,7 @@ def welcome():
     if session.get("is_logged_in", False):
         return render_template("index.html", email=session["email"], name=session["name"])
     else:
-        return redirect(url_for('googlesignin'))
+        return redirect(url_for('front_welcome'))
 
 def check_password_strength(password):
     return re.match(r'^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$', password) is not None
@@ -309,7 +309,7 @@ def home():
 def upload_page():
 
     if not session.get("is_logged_in", False):
-        return redirect(url_for('login'))
+        return redirect(url_for('front_welcome'))
     return render_template('upload-page.html')
 
 
@@ -324,12 +324,12 @@ def upload_file():
 
     
     if not session.get("is_logged_in", False):
-        return redirect(url_for('login'))
+        return redirect(url_for('front_welcome'))
 
     # Fetch the current prompt count from the database
     user_data = db.child("users").child(session["uid"]).get().val()
     if not user_data:
-        return redirect(url_for('login'))
+        return redirect(url_for('front_welcome'))
 
     # Initialize the session prompt count with the value from the database
     if "prompt_count_db" not in session:
