@@ -54,14 +54,14 @@ db = firebase.database()
 @app.route("/")
 def front_welcome():
     apikey = config["apiKey"]
-    apikey = config["authDomain"]
-    apikey = config["databaseURL"]
-    apikey = config["projectId"]
-    apikey = config["storageBucket"]
-    apikey = config["messagingSenderId"]
-    apikey = config["appId"]
-    apikey = config["measurementId"]
-    return render_template("front_welcome.html")
+    authDomain = config["authDomain"]
+    databaseURL = config["databaseURL"]
+    projectId = config["projectId"]
+    storageBucket = config["storageBucket"]
+    messagingSenderId = config["messagingSenderId"]
+    appId = config["appId"]
+    measurementId = config["measurementId"]
+    return render_template("front_welcome.html", apikey=apikey, authDomain=authDomain, databaseURL=databaseURL, projectId=projectId, storageBucket=storageBucket, messagingSenderId=messagingSenderId, appId=appId, measurementId=measurementId)
 
 
 @app.route("/googlesignin", methods=['POST', 'GET'])
