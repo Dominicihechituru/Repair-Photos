@@ -87,9 +87,15 @@
 
         // Function to initialize Firebase
         function initializeFirebase(config) {
-            const app = initializeApp(config);
-            auth = getAuth(app);
-            provider = new GoogleAuthProvider();
+            try {
+                const app = initializeApp(config);
+                auth = getAuth(app);
+                provider = new GoogleAuthProvider();
+                console.log("Firebase initialized successfully.");
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                alert("Failed to initialize Firebase.");
+            }
         }
 
         // Function to handle sign-in
@@ -145,6 +151,12 @@
         fetch('/firebase-config')
             .then(response => response.json())
             .then(data => {
+                console.log("Fetched Firebase configuration:", data); // Debugging log
+
+                if (!data.apiKey || !data.authDomain || !data.projectId) {
+                    throw new Error("Invalid Firebase configuration");
+                }
+
                 const firebaseConfig = {
                     apiKey: data.apiKey,
                     authDomain: data.authDomain,
@@ -161,6 +173,7 @@
             })
             .catch(error => {
                 console.error("Error fetching Firebase configuration:", error);
+                alert("Failed to fetch Firebase configuration: " + error.message);
             });
 
         // Attach the sign-in function to the window to make it accessible globally
