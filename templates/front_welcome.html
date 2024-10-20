@@ -79,80 +79,92 @@
     </style>
     
     <script type="module">
-      // Import the functions you need from the SDKs
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-      import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+        // Import the functions you need from the SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-      let firebaseConfig; // Declare firebaseConfig variable
+        let auth, provider;
 
-      // Fetch the Firebase configuration from the server
-      fetch('/firebase-config')
-        .then(response => response.json())
-        .then(data => {
-            // Set the firebaseConfig with the fetched data
-            firebaseConfig = {
-                apiKey: data.apiKey,
-                authDomain: data.authDomain,
-                databaseURL: data.databaseURL,
-                projectId: data.projectId,
-                storageBucket: data.storageBucket,
-                messagingSenderId: data.messagingSenderId,
-                appId: data.appId,
-                measurementId: data.measurementId
-            };
+        // Function to initialize Firebase
+        function initializeFirebase(config) {
+            const app = initializeApp(config);
+            auth = getAuth(app);
+            provider = new GoogleAuthProvider();
+        }
 
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const provider = new GoogleAuthProvider();
+        // Function to handle sign-in
+        function signInWithGoogle() {
+            if (!auth || !provider) {
+                alert("Firebase is not initialized correctly.");
+                return;
+            }
 
-            // Function to handle sign-in
-            window.signInWithGoogle = function() {
-                signInWithPopup(auth, provider)
-                    .then((result) => {
-                        const user = result.user;
-                        console.log("User signed in:", user);
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log("User signed in:", user);
 
-                        // Send user data to the Flask backend
-                        fetch('/googlesignin', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                uid: user.uid,
-                                displayName: user.displayName,
-                                email: user.email,
-                                emailVerified: user.emailVerified,
-                                photoURL: user.photoURL,
-                                phoneNumber: user.phoneNumber,
-                                providerId: user.providerId,
-                                isAnonymous: user.isAnonymous,
-                                metadata: user.metadata,
-                                providerData: user.providerData
-                            })
+                    // Send user data to the Flask backend
+                    fetch('/googlesignin', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            uid: user.uid,
+                            displayName: user.displayName,
+                            email: user.email,
+                            emailVerified: user.emailVerified,
+                            photoURL: user.photoURL,
+                            phoneNumber: user.phoneNumber,
+                            providerId: user.providerId,
+                            isAnonymous: user.isAnonymous,
+                            metadata: user.metadata,
+                            providerData: user.providerData
                         })
-                        .then(response => {
-                            if (response.ok) {
-                                window.location.href = "/googlesignin";
-                            } else {
-                                throw new Error("Failed to send user data to the backend");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error sending user data to the backend:", error);
-                            alert("Failed to send user data: " + error.message);
-                        });
                     })
-                    .catch((error) => {
-                        console.error("Error during sign-in:", error.code, error.message);
-                        alert("Sign-in failed: " + error.message);
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = "/googlesignin";
+                        } else {
+                            throw new Error("Failed to send user data to the backend");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error sending user data to the backend:", error);
+                        alert("Failed to send user data: " + error.message);
                     });
-            };
-        })
-        .catch(error => {
-            console.error("Error fetching Firebase configuration:", error);
-        });
+                })
+                .catch((error) => {
+                    console.error("Error during sign-in:", error.code, error.message);
+                    alert("Sign-in failed: " + error.message);
+                });
+        }
+
+        // Fetch the Firebase configuration from the server
+        fetch('/firebase-config')
+            .then(response => response.json())
+            .then(data => {
+                const firebaseConfig = {
+                    apiKey: data.apiKey,
+                    authDomain: data.authDomain,
+                    databaseURL: data.databaseURL,
+                    projectId: data.projectId,
+                    storageBucket: data.storageBucket,
+                    messagingSenderId: data.messagingSenderId,
+                    appId: data.appId,
+                    measurementId: data.measurementId
+                };
+
+                // Initialize Firebase
+                initializeFirebase(firebaseConfig);
+            })
+            .catch(error => {
+                console.error("Error fetching Firebase configuration:", error);
+            });
+
+        // Attach the sign-in function to the window to make it accessible globally
+        window.signInWithGoogle = signInWithGoogle;
     </script>
 </head>
 <body>
