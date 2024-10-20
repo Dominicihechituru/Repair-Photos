@@ -84,17 +84,42 @@
       // Import the functions you need from the SDKs
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
       import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-    
+
+      
+    // Fetch the Firebase configuration from the server
+    fetch('/firebase-config')
+        .then(response => response.json())
+        .then(data => {
+            // Log the configuration data in the console
+            //console.log("Firebase Configuration:", data);
+            apiKeya: data.apikey,
+            authDomaina: data.authDomain,
+            databaseURLa: data.databaseURL,
+            projectIda: data.projectId,
+            storageBucketa: data.storageBucket,
+            messagingSenderIda: data.messagingSenderId,
+            appIda: data.appId,
+            measurementIda: data.measurementId
+
+            // Use the data as needed
+        })
+        .catch(error => {
+            console.error("Error fetching Firebase configuration:", error);
+        });
+
+
+
+        
       // Your web app's Firebase configuration
       const firebaseConfig = {
-        apiKey: "AIzaSyCyzNpYl2iskK_VW7p3I5BV3kBmzrRudF4",
-        authDomain: "cazmir-tech.firebaseapp.com",
-        databaseURL: "https://cazmir-tech-default-rtdb.firebaseio.com",
-        projectId: "cazmir-tech",
-        storageBucket: "cazmir-tech.appspot.com",
-        messagingSenderId: "404882482231",
-        appId: "1:404882482231:web:d614535e20f7f55ef1cbb2",
-        measurementId: "G-3F5T0SPESV"
+        apiKey: apiKeya,
+        authDomain: authDomaina,
+        databaseURL: databaseURLa,
+        projectId: projectIda,
+        storageBucket: storageBucketa,
+        messagingSenderId: messagingSenderIda,
+        appId: appIda,
+        measurementId: measurementIda
       };
     
       // Initialize Firebase
