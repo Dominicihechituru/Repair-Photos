@@ -78,106 +78,80 @@
         }
     </style>
     
+    <!-- Added JS code -->
+    
     <script type="module">
-        // Import the functions you need from the SDKs
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-
-        let auth, provider;
-
-        // Function to initialize Firebase
-        function initializeFirebase(config) {
-            try {
-                const app = initializeApp(config);
-                auth = getAuth(app);
-                provider = new GoogleAuthProvider();
-                console.log("Firebase initialized successfully.");
-            } catch (error) {
-                console.error("Error initializing Firebase:", error);
-                alert("Failed to initialize Firebase.");
-            }
-        }
-
-        // Function to handle sign-in
-        function signInWithGoogle() {
-            if (!auth || !provider) {
-                alert("Firebase is not initialized correctly.");
-                return;
-            }
-
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    const user = result.user;
-                    console.log("User signed in:", user);
-
-                    // Send user data to the Flask backend
-                    fetch('/googlesignin', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            uid: user.uid,
-                            displayName: user.displayName,
-                            email: user.email,
-                            emailVerified: user.emailVerified,
-                            photoURL: user.photoURL,
-                            phoneNumber: user.phoneNumber,
-                            providerId: user.providerId,
-                            isAnonymous: user.isAnonymous,
-                            metadata: user.metadata,
-                            providerData: user.providerData
-                        })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.href = "/googlesignin";
-                        } else {
-                            throw new Error("Failed to send user data to the backend");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error sending user data to the backend:", error);
-                        alert("Failed to send user data: " + error.message);
-                    });
+      // Import the functions you need from the SDKs
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+      import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCyzNpYl2iskK_VW7p3I5BV3kBmzrRudF4",
+        authDomain: "cazmir-tech.firebaseapp.com",
+        databaseURL: "https://cazmir-tech-default-rtdb.firebaseio.com",
+        projectId: "cazmir-tech",
+        storageBucket: "cazmir-tech.appspot.com",
+        messagingSenderId: "404882482231",
+        appId: "1:404882482231:web:d614535e20f7f55ef1cbb2",
+        measurementId: "G-3F5T0SPESV"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+    
+      // Function to handle sign-in
+      function signInWithGoogle() {
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            // Successfully signed in
+            const user = result.user;
+            console.log("User signed in:", user);
+    
+            // Send user data to the Flask backend
+            fetch('/googlesignin', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  uid: user.uid,
+                  displayName: user.displayName,
+                  email: user.email,
+                  emailVerified: user.emailVerified,
+                  photoURL: user.photoURL,
+                  phoneNumber: user.phoneNumber,
+                  providerId: user.providerId,
+                  isAnonymous: user.isAnonymous,
+                  metadata: user.metadata,
+                  providerData: user.providerData
                 })
-                .catch((error) => {
-                    console.error("Error during sign-in:", error.code, error.message);
-                    alert("Sign-in failed: " + error.message);
-                });
-        }
-
-        // Fetch the Firebase configuration from the server
-        fetch('/firebase-config')
-            .then(response => response.json())
-            .then(data => {
-                console.log("Fetched Firebase configuration:", data); // Debugging log
-
-                if (!data.apiKey || !data.authDomain || !data.projectId) {
-                    throw new Error("Invalid Firebase configuration");
+              })
+              .then(response => {
+                if (response.ok) {
+                  // Redirect to /home after successfully sending data
+                  window.location.href = "/googlesignin";
+                } else {
+                  throw new Error("Failed to send user data to the backend");
                 }
-
-                const firebaseConfig = {
-                    apiKey: data.apiKey,
-                    authDomain: data.authDomain,
-                    databaseURL: data.databaseURL,
-                    projectId: data.projectId,
-                    storageBucket: data.storageBucket,
-                    messagingSenderId: data.messagingSenderId,
-                    appId: data.appId,
-                    measurementId: data.measurementId
-                };
-
-                // Initialize Firebase
-                initializeFirebase(firebaseConfig);
-            })
-            .catch(error => {
-                console.error("Error fetching Firebase configuration:", error);
-                alert("Failed to fetch Firebase configuration: " + error.message);
-            });
-
-        // Attach the sign-in function to the window to make it accessible globally
-        window.signInWithGoogle = signInWithGoogle;
+              })
+              .catch((error) => {
+                // Handle errors
+                console.error("Error sending user data to the backend:", error);
+                alert("Failed to send user data: " + error.message);
+              });
+          })
+          .catch((error) => {
+            // Handle errors
+            console.error("Error during sign-in:", error.code, error.message);
+            alert("Sign-in failed: " + error.message);
+          });
+      }
+    
+      // Attach the function to the global window object
+      window.signInWithGoogle = signInWithGoogle;
     </script>
 </head>
 <body>
