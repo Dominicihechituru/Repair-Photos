@@ -53,6 +53,14 @@ db = firebase.database()
 
 @app.route("/")
 def front_welcome():
+    apikey = config["apiKey"]
+    apikey = config["authDomain"]
+    apikey = config["databaseURL"]
+    apikey = config["projectId"]
+    apikey = config["storageBucket"]
+    apikey = config["messagingSenderId"]
+    apikey = config["appId"]
+    apikey = config["measurementId"]
     return render_template("front_welcome.html")
 
 
