@@ -51,17 +51,34 @@ auth = firebase.auth()
 db = firebase.database()
 
 
+
+app.route("/firebase-config")
+def get_firebase_config():
+    # Only send necessary configuration data
+    firebase_config = {
+        "apiKey": config["apiKey"],
+        "authDomain": config["authDomain"],
+        "databaseURL": config["databaseURL"],
+        "projectId": config["projectId"],
+        "storageBucket": config["storageBucket"],
+        "messagingSenderId": config["messagingSenderId"],
+        "appId": config["appId"],
+        "measurementId": config["measurementId"],
+    }
+    
+    # Return the data as a JSON response
+    response = jsonify(firebase_config)
+    # Set CORS headers if needed
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+
+
+
 @app.route("/")
 def front_welcome():
-    apikey = config["apiKey"]
-    authDomain = config["authDomain"]
-    databaseURL = config["databaseURL"]
-    projectId = config["projectId"]
-    storageBucket = config["storageBucket"]
-    messagingSenderId = config["messagingSenderId"]
-    appId = config["appId"]
-    measurementId = config["measurementId"]
-    return render_template("front_welcome.html", apikey=apikey, authDomain=authDomain, databaseURL=databaseURL, projectId=projectId, storageBucket=storageBucket, messagingSenderId=messagingSenderId, appId=appId, measurementId=measurementId)
+    
+    return render_template("front_welcome.html")
 
 
 @app.route("/googlesignin", methods=['POST', 'GET'])
