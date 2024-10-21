@@ -119,7 +119,7 @@ def googlesignin():
             return jsonify({"message": "An error occurred during sign-in", "error": str(e)}), 500
 
     # Handle GET requests by returning a generic response
-    return jsonify({"message": "Google Sign-In route"}), 200
+    return redirect(url_for("welcome"))
 
 
 @app.route("/signin")
