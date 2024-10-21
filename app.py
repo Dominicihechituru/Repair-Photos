@@ -71,33 +71,56 @@ def get_firebase_config():
 @app.route("/googlesignin", methods=['POST', 'GET'])
 def googlesignin():
     if request.method == "POST":
-        user_data = request.json
-        if not user_data:
-            return jsonify({"message": "No user data provided"}), 400
+        try:
+            # Parse the incoming JSON data
+            user_data = request.json
+            if not user_data:
+                print("No user data provided")
+                return jsonify({"message": "No user data provided"}), 400
 
-        email = user_data.get("email")
-        name = user_data.get("displayName")
-        uid = user_data.get("uid")
+            # Extract user details from the JSON data
+            email = user_data.get("email")
+            name = user_data.get("displayName")
+            uid = user_data.get("uid")
+            
+            if not email or not name or not uid:
+                print("Incomplete user data:", user_data)
+                return jsonify({"message": "Incomplete user data"}), 400
 
-        if not email or not name or not uid:
-            return jsonify({"message": "Incomplete user data"}), 400
+            # Set session variables
+            session["is_logged_in"] = True
+            session["email"] = email
+            session["name"] = name
+            session["uid"] = uid
 
-        session["is_logged_in"] = True
-        session["email"] = email
-        session["name"] = name
-        session["uid"] = uid
+            # Check if the user already exists in the database
+            user_exists = db.child("users").child(session["uid"]).get().val()
+            if not user_exists:
+                # If the user doesn't exist, create a new entry
+                data = {
+                    "name": name,
+                    "email": email,
+                    "prompt_count_db": 0,
+                    "last_logged_in": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+                }
+                db.child("users").child(session["uid"]).set(data)
+                print(f"New user {email} added to the database")
 
-        # Store user data in the database if not already present
-        if not db.child("users").child(session["uid"]).get().val():
-            data = {
-                "name": name,
-                "email": email,
-                "prompt_count_db": 0,
-                "last_logged_in": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-            }
-            db.child("users").child(session["uid"]).set(data)
+            # For existing users, update the last_logged_in time
+            else:
+                db.child("users").child(session["uid"]).update({"last_logged_in": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")})
+                print(f"User {email} login time updated")
 
-        return redirect(url_for("welcome"))
+            # Redirect to the welcome page or send a success message
+            return jsonify({"message": "Sign-in successful"}), 200
+
+        except Exception as e:
+            print(f"Error during Google sign-in: {e}")
+            return jsonify({"message": "An error occurred during sign-in", "error": str(e)}), 500
+
+    # Handle GET requests by returning a generic response
+    return jsonify({"message": "Google Sign-In route"}), 200
+
 
 @app.route("/signin")
 def login():
