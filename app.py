@@ -121,7 +121,7 @@ def googlesignin():
 
     # For GET requests, just return a success message
     #return jsonify({"message": "Google Sign-In route"}), 200
-    return redirect(url_for("welcome"))
+    return redirect(url_for("home"))
 
 @app.route("/signin")
 def login():
