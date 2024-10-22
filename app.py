@@ -76,7 +76,7 @@ def get_firebase_config():
 
 
 @app.route("/welcome")
-def welcome():
+def front_welcome():
     
     return render_template("front_welcome.html")
 
