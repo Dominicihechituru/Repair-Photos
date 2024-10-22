@@ -76,7 +76,7 @@ def get_firebase_config():
 
 
 @app.route("/welcome")
-def front_welcome():
+def welcome():
     
     return render_template("front_welcome.html")
 
@@ -334,7 +334,7 @@ def home():
 def upload_page():
 
     if not session.get("is_logged_in", False):
-        return redirect(url_for('front_welcome'))
+        return redirect(url_for('welcome'))
     return render_template('upload-page.html')
 
 
