@@ -75,7 +75,7 @@ def get_firebase_config():
 
 
 
-@app.route("/")
+@app.route("/welcome")
 def front_welcome():
     
     return render_template("front_welcome.html")
@@ -131,8 +131,8 @@ def login():
 def signup():
     return render_template("signup.html")
 
-@app.route("/welcome")
-def welcome():
+@app.route("/")
+def home():
     if session.get("is_logged_in", False):
         return render_template("index.html", email=session["email"], name=session["name"])
     else:
