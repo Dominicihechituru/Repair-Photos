@@ -76,7 +76,7 @@ def get_firebase_config():
 
 
 @app.route("/welcome")
-def front_welcome():
+def welcome():
     
     return render_template("front_welcome.html")
 
@@ -162,13 +162,13 @@ def result():
                 db.child("users").child(session["uid"]).update({"last_logged_in": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")})
             else:
                 session["name"] = "User"
-            return redirect(url_for('welcome'))
+            return redirect(url_for('home'))
         except Exception as e:
             print("Error occurred: ", e)
             return redirect(url_for('login'))
     else:
         if session.get("is_logged_in", False):
-            return redirect(url_for('welcome'))
+            return redirect(url_for('home'))
         else:
             return redirect(url_for('login'))
 
@@ -199,7 +199,7 @@ def register():
             return redirect(url_for('signup'))
     else:
         if session.get("is_logged_in", False):
-            return redirect(url_for('welcome'))
+            return redirect(url_for('home'))
         else:
             return redirect(url_for('signup'))
 
